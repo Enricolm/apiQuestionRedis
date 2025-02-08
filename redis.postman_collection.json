@@ -1,64 +1,46 @@
-{
-	"info": {
-		"_postman_id": "00622e29-9831-4c86-b4c4-ff7c0333526c",
-		"name": "redis",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "4634357"
-	},
-	"item": [
-		{
-			"name": "create question",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n   \"user_id\" : \"question:1\",\r\n   \"question_text\" : \"O que significa o numero 42?\"\r\n\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://127.0.0.1:8000/question",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"question"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get question by id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:8000/question/1",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"question",
-						"1"
-					]
-				}
-			},
-			"response": []
-		}
-	]
-}
+--> criar pergunta
+curl -X 'POST' \
+  'http://localhost:8000/quiz/3/question' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "quiz_id": "3",
+  "question_text": "Linux e um?",
+  "question_id": 3,
+  "correct_answer": "sistema operacional"
+}'
+
+
+
+
+
+-->pegar a pergunta
+curl -X 'GET' \
+  'http://localhost:8000/quiz/3/question/3' \
+  -H 'accept: application/json'
+
+
+
+--> pergunta com timer 
+
+curl -X 'GET' \
+  'http://localhost:8000/quiz/3/question/3/start?user_id=353867' \
+  -H 'accept: application/json'
+
+--> respondendo a pergunta
+  curl -X 'POST' \
+  'http://localhost:8000/quiz/{quiz_id}/answer/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "user_id": "353867",
+  "quiz_id": "3",
+  "question_id": "3",
+  "answer": "SLA"
+}'
+
+
+--> pegando ranking
+curl -X 'GET' \
+  'http://localhost:8000/quiz/3/rankings' \
+  -H 'accept: application/json'
